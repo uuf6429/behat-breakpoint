@@ -1,0 +1,30 @@
+{
+  "name": "uuf6429/behat-breakpoint",
+  "description": "✋ Provides various ways to break/block scenarios.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "ext-json": "*",
+    "behat/behat": "^3.3"
+  },
+  "require-dev": {
+    "behat/mink": "^1",
+    "instaclick/php-webdriver": "^1",
+    "phpunit/phpunit": "^7",
+    "phpdocumentor/reflection-docblock": "^4.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "uuf6429\\BehatBreakpoint\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "uuf6429\\BehatBreakpoint\\": "test"
+    }
+  },
+  "suggest": {
+    "ext-xdebug": "Required for Xdebug breakpoints."
+  }
+}
