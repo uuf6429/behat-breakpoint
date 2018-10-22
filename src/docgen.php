@@ -47,22 +47,31 @@ foreach (
     if ($parameters) {
         echo "\n  ";
     }
+    $table = [];
     foreach ($parameters as $i => $parameter) {
-        echo "    \${$parameter->getName()}";
+        if ((isset($paramsDoc[$i]) && !($type = $paramsDoc[$i]->getType())) && !($type = $parameter->getType())) {
+            $type = 'mixed';
+        }
+        $key = "    {$type} \${$parameter->getName()}";
         if ($parameter->isOptional()) {
-            echo ' = ' . var_export($parameter->getDefaultValue(), true);
+            $key .= ' = ' . var_export($parameter->getDefaultValue(), true);
         }
         if ($i < count($parameters) - 1) {
-            echo ',';
+            $key .= ',';
         }
-        echo '    // ';
+
+        $val = '    // ';
         if ($parameter->isOptional()) {
-            echo '(Optional) ';
+            $val .= '(Optional) ';
         }
+        $val .= (isset($paramsDoc[$i]) && ($desc = $paramsDoc[$i]->getDescription())) ? $desc : 'Undocumented';
+        $val .= "\n  ";
 
-        echo (isset($paramsDoc[$i]) && ($desc = $paramsDoc[$i]->getDescription())) ? $desc : 'Undocumented';
-
-        echo "\n  ";
+        $table[$key] = $val;
+    }
+    $maxKeyLen = count($table) ? max(array_map('strlen', array_keys($table))) : 0;
+    foreach ($table as $key => $val) {
+        echo str_pad($key, $maxKeyLen) . $val;
     }
     echo ")\n";
     echo "  ```\n";

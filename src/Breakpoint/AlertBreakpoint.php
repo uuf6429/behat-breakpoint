@@ -23,10 +23,10 @@ class AlertBreakpoint implements Breakpoint, ActivatableBreakpoint
     private $message;
 
     /**
-     * @param Session $session
+     * @param Session $session The WebDriver session to work with.
      * @param string $message A message to show to the operator.
      */
-    public function __construct(Session $session, $message = 'Breakpoint reached! Press [OK] to continue.')
+    public function __construct($session, $message = 'Breakpoint reached! Press [OK] to continue.')
     {
         $this->session = $session;
         $this->message = $message;

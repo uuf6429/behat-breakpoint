@@ -47,12 +47,12 @@ class PopupBreakpoint implements Breakpoint, ActivatableBreakpoint
     private $popupIsResizeable;
 
     /**
-     * @param Session $session
-     * @param string $popupHtml
-     * @param int $popupWidth
-     * @param int $popupHeight
-     * @param bool $popupIsScrollable
-     * @param bool $popupIsResizeable
+     * @param Session $session The Mink session to work with. It must support javascript.
+     * @param string $popupHtml The HTML of the popup page *body*.
+     * @param int $popupWidth The popup's default width.
+     * @param int $popupHeight The popup's default height.
+     * @param bool $popupIsScrollable Enables scrollbars (and scrolling) within the popup.
+     * @param bool $popupIsResizeable Allows the popup to be resizeable.
      */
     public function __construct(Session $session, $popupHtml, $popupWidth = 500, $popupHeight = 300, $popupIsScrollable = false, $popupIsResizeable = false)
     {

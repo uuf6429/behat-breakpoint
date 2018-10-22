@@ -11,16 +11,35 @@ class XdebugBreakpoint implements Breakpoint
 {
     public function trigger()
     {
-        static $breaker = 'xdebug_break';
-
-        if (!function_exists($breaker)) {
+        if (!$this->isXdebugEnabled()) {
             throw new TriggerException('Xdebug breakpoint function not available. Is Xdebug installed and enabled?');
         }
 
-        if (function_exists('xdebug_is_debugger_active') && !xdebug_is_debugger_active()) {
+        if (!$this->isDebuggerAttached()) {
             throw new TriggerException('Xdebug is not connected to any debuggers. Is your IDE/client accepting connections?');
         }
 
-        $breaker();
+        $this->triggerBreakpoint();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isXdebugEnabled()
+    {
+        return function_exists('xdebug_break');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDebuggerAttached()
+    {
+        return function_exists('xdebug_is_debugger_active') && !xdebug_is_debugger_active();
+    }
+
+    protected function triggerBreakpoint()
+    {
+        xdebug_break();
     }
 }
