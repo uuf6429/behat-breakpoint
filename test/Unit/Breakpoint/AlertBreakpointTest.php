@@ -21,8 +21,13 @@ class AlertBreakpointTest extends TestCase
      */
     public function testTriggerCall($customMessage, $alertStaysOpen, $expectedCode, $expectedException)
     {
+        if (!class_exists(\DG\BypassFinals::class)) {
+            $this->markTestSkipped('This test requires \DG\BypassFinals.');
+        }
+
         /** @var MockObject|Session $session */
-        $session = $this->getMockBuilder('stdClass')
+        /** @noinspection ClassMockingCorrectnessInspection */
+        $session = $this->getMockBuilder(Session::class)
             ->setMethods(['getAlert_text', 'execute_async', 'dismiss_alert'])
             ->getMock();
 

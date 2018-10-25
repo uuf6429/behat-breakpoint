@@ -12,6 +12,8 @@ class AlertBreakpoint implements Breakpoint, ActivatableBreakpoint
 {
     use WaitUntilDeactivationTrait;
 
+    private static $defaultMessage = 'Breakpoint reached! Press [OK] to continue.';
+
     /**
      * @var Session
      */
@@ -26,10 +28,10 @@ class AlertBreakpoint implements Breakpoint, ActivatableBreakpoint
      * @param Session $session The WebDriver session to work with.
      * @param string $message A message to show to the operator.
      */
-    public function __construct($session, $message = 'Breakpoint reached! Press [OK] to continue.')
+    public function __construct(Session $session, $message = null)
     {
         $this->session = $session;
-        $this->message = $message;
+        $this->message = $message ?: self::$defaultMessage;
     }
 
     public function isActive()

@@ -13,7 +13,8 @@
     "instaclick/php-webdriver": "^1",
     "phpunit/phpunit": "^5 || ^6 || ^7",
     "crodas/phpunit-compat": "^1",
-    "phpdocumentor/reflection-docblock": "^3 || ^4"
+    "phpdocumentor/reflection-docblock": "^3 || ^4",
+    "dg/bypass-finals": "^1.1"
   },
   "autoload": {
     "psr-4": {
