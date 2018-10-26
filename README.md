@@ -54,14 +54,14 @@ None of the above packages are installed automatically; since someone may want t
 
 Construct the desired breakpoint from the ones listed below and `trigger()` it.
 
-- **[AlertBreakpoint](src/Breakpoint/AlertBreakpoint)** - *Shows a javascript alert in the specified browser session and waits until it is closed.*
+- **[AlertBreakpoint](src/Breakpoint/AlertBreakpoint.php)** - *Shows a javascript alert in the specified browser session and waits until it is closed.*
   ```php
   new \uuf6429\BehatBreakpoint\Breakpoint\AlertBreakpoint(
-      \Session $session,                                                 // The WebDriver session to work with.
-      string $message = 'Breakpoint reached! Press [OK] to continue.'    // (Optional) A message to show to the operator.
+      \Session $session,        // The WebDriver session to work with.
+      string $message = NULL    // (Optional) A message to show to the operator.
   )
   ```
-- **[ConsoleBreakpoint](src/Breakpoint/ConsoleBreakpoint)** - *Displays a message in the current terminal and waits until [enter] is pressed.*
+- **[ConsoleBreakpoint](src/Breakpoint/ConsoleBreakpoint.php)** - *Displays a message in the current terminal and waits until [enter] is pressed.*
   ```php
   new \uuf6429\BehatBreakpoint\Breakpoint\ConsoleBreakpoint(
       string $message = NULL,          // (Optional) A message to show to the operator.
@@ -69,7 +69,7 @@ Construct the desired breakpoint from the ones listed below and `trigger()` it.
       null|resource $input = NULL      // (Optional) Input handle (defaults to PHP's STDIN)
   )
   ```
-- **[PopupBreakpoint](src/Breakpoint/PopupBreakpoint)** - *Displays a new window with some HTML and waits until it is closed by the user.*
+- **[PopupBreakpoint](src/Breakpoint/PopupBreakpoint.php)** - *Displays a new window with some HTML and waits until it is closed by the user.*
   ```php
   new \uuf6429\BehatBreakpoint\Breakpoint\PopupBreakpoint(
       \Session $session,                  // The Mink session to work with. It must support javascript.
@@ -80,7 +80,7 @@ Construct the desired breakpoint from the ones listed below and `trigger()` it.
       bool $popupIsResizeable = false     // (Optional) Allows the popup to be resizeable.
   )
   ```
-- **[XdebugBreakpoint](src/Breakpoint/XdebugBreakpoint)** - *Pauses execution until a connected xdebug client resumes execution.*
+- **[XdebugBreakpoint](src/Breakpoint/XdebugBreakpoint.php)** - *Pauses execution until a connected xdebug client resumes execution.*
   ```php
   new \uuf6429\BehatBreakpoint\Breakpoint\XdebugBreakpoint()
   ```
@@ -88,5 +88,48 @@ Construct the desired breakpoint from the ones listed below and `trigger()` it.
 ### In Gherkin
 
 First add the context to your behat project config (`behat.yml`) and then use any of the following steps in your feature files:
+- Shows a javascript alert in the currently open page and pauses execution until it is closed.. Definition(s):
+  ```gherkin
+  Given an alert breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  Then an alert breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  When an alert breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  ```
+  Example(s):
+  ```gherkin
+  Then a console breakpoint is triggered with message "Breakpoint reached! Press [OK] to continue..."
+  ```
+- Shows a message in the Behat console and waits for the user to press "enter" before continuing execution.. Definition(s):
+  ```gherkin
+  Given a console breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  Then a console breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  When a console breakpoint is triggered(?: with message "(?P<message>[^"]*)")?
+  ```
+  Example(s):
+  ```gherkin
+  Then a console breakpoint is triggered with message "Breakpoint reached! Press [Enter] to continue..."
+  ```
+- Shows a browser popup with some HTML and pauses execution until it is closed.. Definition(s):
+  ```gherkin
+  Given a(?: (?P<width>\d+)x(?P<height>\d+))? popup breakpoint is triggered with the following content:
+  Then a(?: (?P<width>\d+)x(?P<height>\d+))? popup breakpoint is triggered with the following content:
+  When a(?: (?P<width>\d+)x(?P<height>\d+))? popup breakpoint is triggered with the following content:
+  ```
+  Example(s):
+  ```gherkin
+  Then a 300x200 popup breakpoint is triggered with the following content:
+  """
+  <h1>Hello world</h1>
+  """
+  ```
+- Causes any connected xdebug session to break into a debugging session, pausing execution.. Definition(s):
+  ```gherkin
+  Given an xdebug breakpoint is triggered
+  Then an xdebug breakpoint is triggered
+  When an xdebug breakpoint is triggered
+  ```
+  Example(s):
+  ```gherkin
+  Then an xdebug breakpoint is triggered
+  ```
 
 <!-- /src/docgen.php -->
