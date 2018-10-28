@@ -68,13 +68,23 @@ class AlertBreakpointTest extends TestCase
             'no custom message, alert not shown' => [
                 '$customMessage' => null,
                 '$alertStaysOpen' => false,
-                '$expectedCode' => ['window.alert("Breakpoint reached! Press [OK] to continue.");'],
+                '$expectedCode' => [
+                    [
+                        'script' => 'window.alert("Breakpoint reached! Press [OK] to continue.");',
+                        'args' => [],
+                    ]
+                ],
                 '$expectedException' => null,
             ],
             'custom message, alert not shown' => [
                 '$customMessage' => 'hello world',
                 '$alertStaysOpen' => false,
-                '$expectedCode' => ['window.alert("hello world");'],
+                '$expectedCode' => [
+                    [
+                        'script' => 'window.alert("hello world");',
+                        'args' => [],
+                    ]
+                ],
                 '$expectedException' => null,
             ],
             'no custom message, alert is shown' => [

@@ -50,7 +50,10 @@ class AlertBreakpoint implements Breakpoint, ActivatableBreakpoint
             $this->deactivate();
         }
 
-        $this->session->execute_async(sprintf('window.alert(%s);', json_encode($this->message)));
+        $this->session->execute_async([
+            'script' => sprintf('window.alert(%s);', json_encode($this->message)),
+            'args' => []
+        ]);
     }
 
     public function deactivate()

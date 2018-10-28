@@ -75,37 +75,33 @@ class PopupBreakpoint implements Breakpoint, ActivatableBreakpoint
             $this->deactivate();
         }
 
-        $this->popupName = uniqid('behatPopup_', true);
-
         $options = sprintf(
             '"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=%s,'
-            . 'resizable=%s,width=%s,height=%s,left=" + (screen.width-%s) + ",top=" + (screen.height-%s)',
+            . 'resizable=%s,width=%s,height=%s,left=" + ((screen.width-%s) / 2) + ",top=" + ((screen.height-%s) / 2)',
             $this->popupIsScrollable ? 'yes' : 'no',
             $this->popupIsResizeable ? 'yes' : 'no',
             $this->popupWidth,
             $this->popupHeight,
-            $this->popupWidth / 2,
-            $this->popupHeight / 2
+            $this->popupWidth,
+            $this->popupHeight
         );
 
-        // create and open popup
-        $this->session->executeScript(
-            sprintf(
-                'window["%s"] = window.open("", "%s", %s))',
-                $this->popupName,
-                $this->popupName,
-                $options
-            )
-        );
+        $oldWindows = $this->session->getWindowNames();
 
-        // set popup body content
+        // create, set up and open popup
         $this->session->executeScript(
             sprintf(
-                'window["%s"].document.body.innerHTML = %s',
-                $this->popupName,
+                '(newWindow = window.open("", "", %s)).document.body.innerHTML = %s',
+                $options,
                 json_encode($this->popupHtml)
             )
         );
+
+        // detect new popup's name
+        $this->popupName = array_values(array_diff($this->session->getWindowNames(), $oldWindows))[0];
+
+        // keep track of popup
+        $this->session->executeScript("window['{$this->popupName}'] = newWindow");
     }
 
     public function deactivate()
@@ -114,6 +110,6 @@ class PopupBreakpoint implements Breakpoint, ActivatableBreakpoint
             return;
         }
 
-        $this->session->executeScript(sprintf('window["%s"].close()', $this->popupName));
+        $this->session->executeScript("window['{$this->popupName}'].close()");
     }
 }

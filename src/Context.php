@@ -12,7 +12,10 @@ class Context extends MinkAwareContextHandler
      */
     protected $breakpointFactory;
 
-    public function __construct(Factory $factory)
+    /**
+     * @param null|Factory $factory
+     */
+    public function __construct(Factory $factory = null)
     {
         $this->breakpointFactory = $factory ?: new Factory();
     }
@@ -76,8 +79,8 @@ class Context extends MinkAwareContextHandler
             ->createPopupBreakpoint(
                 $this->getMink()->getSession(),
                 $content ? $content->getRaw() : '',
-                $width === null ? (int)$width : null,
-                $height === null ? (int)$height : null
+                $width !== null ? (int)$width : null,
+                $height !== null ? (int)$height : null
             )
             ->trigger();
     }

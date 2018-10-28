@@ -10,7 +10,7 @@
 
 ✋ Provides various ways to break/block scenarios in Behat.
 
-<!-- TODO add screen shot of each breakpoint type -->
+![screenshots](https://i.imgur.com/N5oRVxp.png)
 
 ## Installation
 
