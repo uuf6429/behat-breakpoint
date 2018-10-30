@@ -28,6 +28,6 @@
     }
   },
   "suggest": {
-    "ext-xdebug": "Required for Xdebug breakpoints."
+    "ext-xdebug": "Required for Xdebug breakpoints"
   }
 }
